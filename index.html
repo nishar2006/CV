@@ -31,6 +31,11 @@ button,input {font:inherit}
 .nav-evidence {background:linear-gradient(135deg,#fff7fa,#f1d8e1)!important;color:var(--navy)!important;border-color:#e9b9c8!important;box-shadow:0 5px 16px rgba(169,81,112,.18)}
 .nav-evidence::before{content:"✦";font-size:11px;color:var(--accent);margin-right:6px}
 .nav-cta {background:rgba(255,255,255,.12)!important}
+/* Distinctive PDF action: warm haldi-gold with a download icon */
+.nav-links .print-trigger{background:linear-gradient(135deg,#f4d36f 0%,#e7b943 100%)!important;color:#20384a!important;border:1px solid #ffe8a0!important;box-shadow:0 4px 14px rgba(231,185,67,.30)!important;font-weight:900!important;gap:8px}
+.nav-links .print-trigger:hover,.nav-links .print-trigger:focus-visible{background:linear-gradient(135deg,#ffe89a 0%,#f0ca58 100%)!important;color:#172b3a!important;border-color:#fff0b8!important;box-shadow:0 7px 20px rgba(231,185,67,.42)!important;transform:translateY(-2px)}
+.nav-links .print-trigger svg{width:16px;height:16px;flex:0 0 auto;stroke:currentColor}
+
 @media (max-width:1050px){.brand{min-width:120px;font-size:14px}.nav-links{font-size:12px}.nav-links a,.nav-cta,.nav-evidence{padding:9px 10px}}
 .recruiter-index .index-item {display:inline-flex;align-items:center;justify-content:center;padding:9px 12px;border:1px solid rgba(255,255,255,.95);border-radius:11px;background:#ffffff;color:var(--navy)!important;font-size:12px;font-weight:850;line-height:1;box-shadow:0 4px 14px rgba(0,0,0,.16);transition:all .18s ease}
 .recruiter-index .index-item:hover {background:var(--accent-soft);color:var(--navy)!important;border-color:#ffffff;transform:translateY(-1px);box-shadow:0 7px 18px rgba(0,0,0,.20)}
@@ -126,11 +131,34 @@ ul{margin:0;padding-left:20px}li{margin:7px 0}
 @media (max-width:900px){#certifications .cert-grid,#certifications .cert-grid-3{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:640px){#certifications .cert-grid,#certifications .cert-grid-3{grid-template-columns:1fr}#certifications .cert-card{min-height:0}}
 @media print{#certifications .cert-grid,#certifications .cert-grid-3{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}#certifications .cert-card{box-shadow:none;padding:12px;min-height:0}#certifications .cert-badge{font-size:7pt;padding:4px 7px;margin-bottom:7px}#certifications .cert-card h3{font-size:9pt}#certifications .cert-meta{font-size:7.5pt}}
+
+/* PRINT / SAVE PDF SECTION SELECTOR */
+.print-trigger{cursor:pointer;color:#f8fbfd!important}
+.print-modal-backdrop{position:fixed;inset:0;z-index:1000;background:rgba(12,25,36,.62);display:flex;align-items:center;justify-content:center;padding:20px}
+.print-modal-backdrop[hidden]{display:none!important}
+.print-modal{width:min(620px,100%);max-height:90vh;overflow:auto;padding:26px;background:#fff}
+.print-modal-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px}
+.print-modal-head h2{font-size:26px;margin-top:5px}
+.print-close{border:0;background:#f1f3f5;border-radius:9px;width:36px;height:36px;font-size:25px;cursor:pointer;color:var(--navy)}
+.print-options{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin:20px 0}
+.print-options label{display:flex;align-items:center;gap:9px;border:1px solid var(--line);border-radius:11px;padding:12px;font-weight:700;font-size:13px;cursor:pointer}
+.print-options input{accent-color:var(--accent);width:16px;height:16px;flex:0 0 auto}
+.print-hint{font-size:11px;color:var(--muted);font-weight:500}
+.print-modal-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:20px}
+.print-cancel,.print-confirm{padding:11px 15px;border-radius:10px;border:1px solid var(--line);font-weight:800;cursor:pointer}
+.print-cancel{background:#fff;color:var(--navy)}.print-confirm{background:var(--navy);color:#fff;border-color:var(--navy)}
+@media(max-width:640px){.print-options{grid-template-columns:1fr}.print-modal{padding:20px}.print-modal-actions{flex-direction:column-reverse}.print-modal-actions button{width:100%}}
+@media print{
+  .print-modal-backdrop,.print-trigger{display:none!important}
+  body.print-selection-active [data-print-section].print-hide{display:none!important}
+  body.print-selection-active #projects.print-hide{display:none!important}
+}
+
 </style></head>
 <body>
 <nav class="nav"><div class="container nav-inner"><div class="brand">Nishar <span>Ahamad</span></div><div class="nav-links">
-<a href="#overview">Overview</a><a href="#experience">Experience</a><a href="#capabilities">Capabilities</a><a href="#projects">Projects</a><a href="#certifications">Certifications</a><a aria-label="Jump to Evidence at a glance" class="nav-evidence" href="#evidence">Evidence at a glance</a><a class="nav-cta" href="#contact">Contact</a></div></div></nav>
-<header class="hero" id="overview">
+<a href="#overview">Overview</a><a href="#experience">Experience</a><a href="#capabilities">Capabilities</a><a href="#projects">Projects</a><a href="#certifications">Certifications</a><a aria-label="Jump to Evidence at a glance" class="nav-evidence" href="#evidence">Evidence at a glance</a><a class="nav-cta" href="#contact">Contact</a><button class="nav-cta print-trigger" id="openPrintOptions" type="button"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><path d="M12 3v11m0 0 4-4m-4 4-4-4M5 16v4h14v-4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Print / Save PDF</span></button></div></div></nav>
+<header class="hero" id="overview" data-print-section="overview">
 <div class="container hero-grid">
 <div>
 <h1>Nishar Ahamad</h1>
@@ -147,7 +175,7 @@ ul{margin:0;padding-left:20px}li{margin:7px 0}
 </div>
 </div>
 </header>
-<section class="section" id="role-fit"><div class="container">
+<section class="section" id="role-fit" data-print-section="overview"><div class="container">
 <div class="section-head"><div><div class="kicker">Recruiter lens</div><h2>What I can own end-to-end</h2></div></div>
 <p class="lead">The profile is strongest where a business needs someone who can move from problem definition to CRM design, data control, automation, reporting, adoption, and ongoing governance.</p>
 <div class="insight-grid" style="margin-top:22px">
@@ -159,11 +187,24 @@ ul{margin:0;padding-left:20px}li{margin:7px 0}
 <article class="insight card"><div class="icon">06</div><h3>Leadership &amp; Adoption</h3><p>Lead a data-research / hygiene / MIS team, onboard new users, screen candidates, work with leadership, and standardize operating practices.</p></article>
 </div>
 </div></section>
-<section class="section alt" id="experience"><div class="container">
+<section class="section alt" id="experience" data-print-section="experience"><div class="container">
 <div class="section-head"><div><div class="kicker">Career</div><h2>Professional experience</h2></div></div>
 <div class="timeline">
 <article class="experience card">
-<div class="exp-head"><div><h3>Deputy Manager - Sales &amp; Revenue Operations / HubSpot Administration</h3><div class="company">Provana India Pvt. Ltd.</div></div><div class="date">Jun 2021 - Present</div></div>
+<div class="exp-head"><div><h3>RevOps &amp; HubSpot Administrator</h3><div class="company">Ai Insurance - Canada</div></div><div class="date">Sep 2026 - Present</div></div>
+<div class="exp-meta">Remote, India · Contractor</div>
+<ul>
+<li>Administer HubSpot CRM operations across a multi-brand insurance and surety business, supporting platform structure, user access, permissions, properties, pipelines, ticketing, and dashboards.</li>
+<li>Configure and improve sales pipelines and workflow automation for stage progression, follow-ups, internal alerts, service-level monitoring, renewals, and cross-sell opportunities.</li>
+<li>Support lead-routing and ownership rules, including assignment logic, routing exceptions, and visibility into lead response and follow-up performance.</li>
+<li>Support HubSpot data synchronization and integration operations with the agency management system (SIG), including field mapping, data validation, sync troubleshooting, and coordination on integration issues.</li>
+<li>Support Service Hub processes covering ticket assignment, inbox routing, SLA monitoring, escalations, and customer feedback workflows.</li>
+<li>Maintain CRM data quality through validation, standardization, deduplication, and ongoing data-hygiene controls; develop operational dashboards for pipelines, lead flow, adoption, and service performance.</li>
+<li>Document CRM processes and support user onboarding, training, SOPs, and consistent HubSpot usage across operational teams.</li>
+</ul>
+</article>
+<article class="experience card">
+<div class="exp-head"><div><h3>Deputy Manager - Sales &amp; Revenue Operations / HubSpot Administration</h3><div class="company">Provana India Pvt. Ltd.</div></div><div class="date">Jun 2021 - Aug 2026</div></div>
 <div class="exp-meta">Progression: Sr. Sales Operations Analyst → Team Leader → Associate Manager → Deputy Manager</div>
 <ul><li>Administer HubSpot across business units, including users, permissions, workflows, forms, surveys, segmentation, calculated properties, pipelines, dashboards, ticketing, and CRM structure.</li><li>Lead post-acquisition CRM transitions and migrations covering contacts, companies, deals, tickets, custom properties, workflows, reporting structures, data validation, and assignment logic.</li><li>Manage CRM data cleansing, deduplication, property mapping, pipeline alignment, and data-integrity controls.</li><li>Automate Sales and MIS reporting using HubSpot and Excel VBA; current CV / LinkedIn profile state a 60% reduction in reporting time.</li><li>Optimize lead sourcing and assignment, track lead-source performance, support follow-up and renewal tracking, and monitor pipeline health.</li><li>Lead and mentor a four-person Data Research, Data Hygiene, and MIS team; deliver HubSpot onboarding and training for new hires.</li><li>Build workflows, dashboards, ticketing systems, SDR tracking, and custom project-management solutions for operational handoffs.</li><li>Partner with Finance and cross-functional teams to transform billing data into HubSpot-compatible structures and reconcile CRM opportunities with financial records.</li><li>Support forecasting, business reviews, ad-hoc analysis, recruitment screening, and CRM governance.</li></ul>
 </article>
@@ -178,11 +219,11 @@ ul{margin:0;padding-left:20px}li{margin:7px 0}
 <ul><li>Built the operational foundation for later RevOps work through progressively broader responsibilities in sales coordination, MIS, data processing, client support, and team leadership.</li><li>Career history includes roles at Highlands Info Tech, CivilGEO, CSAV, KeyStroke Pro, BOSS Computec, Planman Technologies, 3Pillar / BrickRed Technologies, and Quadrant Infotech.</li><li>Progressed into team-lead and senior-coordinator responsibilities before moving into the current CRM / RevOps specialization.</li></ul>
 </article></div>
 </div></section>
-<section class="section" id="capabilities"><div class="container">
+<section class="section" id="capabilities" data-print-section="capabilities"><div class="container">
 <div class="section-head"><div><div class="kicker">Capability map</div><h2>Skills aligned to employer needs</h2></div></div>
 <div class="cap-grid"><article class="cap card"><h3>Revenue &amp; Sales Operations</h3><div class="tag-cloud"><span class="pill">Lead sourcing</span><span class="pill">Lead assignment &amp; tracking</span><span class="pill">Pipeline management</span><span class="pill">Forecasting</span><span class="pill">Lead follow-up</span><span class="pill">Renewal tracking</span><span class="pill">Sales performance tracking</span><span class="pill">Opportunity / finance alignment</span></div></article><article class="cap card"><h3>HubSpot &amp; CRM</h3><div class="tag-cloud"><span class="pill">User &amp; access governance</span><span class="pill">Sales Hub</span><span class="pill">Service Hub</span><span class="pill">Marketing Hub exposure</span><span class="pill">Data Hub exposure</span><span class="pill">Revenue Hub exposure</span><span class="pill">Workflows</span><span class="pill">Forms &amp; surveys</span><span class="pill">Ticketing</span><span class="pill">Custom objects</span><span class="pill">Pipelines</span><span class="pill">Properties / calculated fields</span><span class="pill">Dashboards &amp; reporting</span></div></article><article class="cap card"><h3>Data &amp; Analytics</h3><div class="tag-cloud"><span class="pill">Advanced Excel</span><span class="pill">VBA / Macros</span><span class="pill">Power BI</span><span class="pill">DAX &amp; data modeling</span><span class="pill">MySQL</span><span class="pill">MIS reporting</span><span class="pill">Data cleansing</span><span class="pill">Deduplication</span><span class="pill">Data validation</span><span class="pill">CRM reconciliation</span></div></article><article class="cap card"><h3>Automation &amp; AI</h3><div class="tag-cloud"><span class="pill">HubSpot workflow automation</span><span class="pill">Custom code / Node.js</span><span class="pill">HubSpot APIs</span><span class="pill">AI-assisted deal classification</span><span class="pill">Prompt-based reasoning</span><span class="pill">Process automation</span><span class="pill">Exception handling</span></div></article><article class="cap card"><h3>Leadership &amp; Delivery</h3><div class="tag-cloud"><span class="pill">Team management</span><span class="pill">Training &amp; onboarding</span><span class="pill">Cross-functional coordination</span><span class="pill">Recruitment screening</span><span class="pill">Process optimization</span><span class="pill">Business reviews</span><span class="pill">Stakeholder reporting</span></div></article><article class="cap card"><h3>eCommerce &amp; Operations</h3><div class="tag-cloud"><span class="pill">Amazon</span><span class="pill">Flipkart</span><span class="pill">Udaan</span><span class="pill">Brand onboarding</span><span class="pill">Inventory</span><span class="pill">Orders / dispatch</span><span class="pill">Billing / reconciliation</span></div></article></div>
 </div></section>
-<section class="section alt" id="projects"><div class="container">
+<section class="section alt" id="projects" data-print-section="projects"><div class="container">
 <div class="section-head"><div><div class="kicker">Project portfolio</div><h2>Selected systems &amp; automations</h2><p class="lead">Use the search and filters to find project evidence relevant to a role. Open a card for business problem, architecture, technology, and impact.</p></div></div>
 <div class="project-toolbar">
 <input aria-label="Search projects" class="search" id="projectSearch" placeholder="Search projects: HubSpot, AI, SLA, API, data, reporting..." type="search"/>
@@ -324,13 +365,14 @@ ul{margin:0;padding-left:20px}li{margin:7px 0}
 </article></div>
 <div class="no-results" id="noResults">No project matches the current search / filter.</div>
 </div></section>
-<section class="section" id="certifications"><div class="container">
+<section class="section" id="certifications" data-print-section="certifications"><div class="container">
 <div class="section-head"><div><div class="kicker">Credentials</div><h2>Certifications &amp; professional development</h2></div></div>
 <div class="cert-groups">
 <div class="cert-group">
 <div class="cert-group-title">HUBSPOT ACADEMY</div>
 <div class="cert-grid">
 <article class="cert-card"><div class="cert-badge">✦ HUBSPOT CERTIFIED</div><h3>HubSpot Data Integrations Certified</h3><div class="cert-meta">◆ HubSpot Academy · Sep 2026</div></article>
+<article class="cert-card"><div class="cert-badge">✦ HUBSPOT CERTIFIED</div><h3>HubSpot Revenue Operations Certified</h3><div class="cert-meta">◆ HubSpot Academy · Oct 2026</div></article>
 <article class="cert-card"><div class="cert-badge">✦ HUBSPOT CERTIFIED</div><h3>Service Hub Software Certified</h3><div class="cert-meta">◆ HubSpot Academy · Aug 2026</div></article>
 <article class="cert-card"><div class="cert-badge">✦ HUBSPOT CERTIFIED</div><h3>HubSpot Reporting Certified</h3><div class="cert-meta">◆ HubSpot Academy · Jul 2026</div></article>
 </div>
@@ -361,7 +403,7 @@ ul{margin:0;padding-left:20px}li{margin:7px 0}
 </div>
 </div>
 </div></section>
-<section class="section alt" id="evidence"><div class="container">
+<section class="section alt" id="evidence" data-print-section="evidence"><div class="container">
 <div class="section-head"><div><div class="kicker">Evidence at a glance</div><h2>Scale, systems, and operating depth</h2></div></div>
 <div class="proof">
 <div class="proof-card"><div class="num">600+</div><p>HubSpot users managed across CRM operations.</p></div>
@@ -374,13 +416,30 @@ ul{margin:0;padding-left:20px}li{margin:7px 0}
 <article class="mini-card card"><h3>Education</h3><p><strong>B.Com, University of Delhi</strong> (2010)</p><p>Academic foundation in commerce combined with hands-on operations, CRM, analytics, and automation experience.</p></article>
 </div>
 </div></section>
-<section class="section" id="contact"><div class="container">
+<section class="section" id="contact" data-print-section="contact"><div class="container">
 <div class="card" style="padding:26px;background:linear-gradient(135deg,#fff,#f7f1f4)">
 <div class="kicker">Contact</div><h2>Let's connect</h2>
 <p class="lead">Nishar Ahamad - Sales &amp; Revenue Operations | HubSpot | CRM Administration | MIS and Automation | Analytics</p>
 <p><strong>Email:</strong> <a href="mailto:nishar2006@gmail.com">nishar2006@gmail.com</a>   ·   <strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/nishar1985" rel="noopener" target="_blank">linkedin.com/in/nishar1985</a>   ·   <strong>Location:</strong> Faridabad, Haryana, India</p>
 </div>
 </div></section>
+<div class="print-modal-backdrop" id="printOptionsModal" hidden role="dialog" aria-modal="true" aria-labelledby="printOptionsTitle">
+  <div class="print-modal card">
+    <div class="print-modal-head"><div><div class="kicker">Export CV</div><h2 id="printOptionsTitle">Choose sections for PDF</h2></div><button type="button" class="print-close" id="closePrintOptions" aria-label="Close">×</button></div>
+    <p class="lead">Select the sections you want to include. Projects are unselected by default.</p>
+    <div class="print-options">
+      <label><input type="checkbox" value="overview" checked> Overview &amp; What I Solve</label>
+      <label><input type="checkbox" value="experience" checked> Professional Experience</label>
+      <label><input type="checkbox" value="capabilities" checked> Capabilities</label>
+      <label><input type="checkbox" value="projects"> Projects <span class="print-hint">(not selected by default)</span></label>
+      <label><input type="checkbox" value="certifications" checked> Certifications</label>
+      <label><input type="checkbox" value="evidence" checked> Evidence at a glance</label>
+      <label><input type="checkbox" value="contact" checked> Contact</label>
+    </div>
+    <div class="print-modal-actions"><button type="button" class="print-cancel" id="cancelPrintOptions">Cancel</button><button type="button" class="print-confirm" id="confirmPrint">Continue to Print / Save PDF</button></div>
+    <p class="print-hint">In the browser print window, choose “Save as PDF” as the destination.</p>
+  </div>
+</div>
 <footer aria-hidden="true" class="footer"><div class="footer-line"></div></footer>
 <script>
 const buttons=[...document.querySelectorAll('.filter')];
@@ -401,5 +460,32 @@ search.addEventListener('input',refresh);
 document.querySelectorAll('.expand').forEach(btn=>btn.addEventListener('click',()=>{
   const card=btn.closest('.project'); const open=card.classList.toggle('open'); btn.setAttribute('aria-expanded',open?'true':'false');
 }));
+
+const printModal=document.getElementById('printOptionsModal');
+const openPrintOptions=document.getElementById('openPrintOptions');
+const closePrintOptions=document.getElementById('closePrintOptions');
+const cancelPrintOptions=document.getElementById('cancelPrintOptions');
+const confirmPrint=document.getElementById('confirmPrint');
+function hidePrintOptions(){printModal.hidden=true;}
+openPrintOptions.addEventListener('click',()=>{printModal.hidden=false;});
+closePrintOptions.addEventListener('click',hidePrintOptions);
+cancelPrintOptions.addEventListener('click',hidePrintOptions);
+printModal.addEventListener('click',event=>{if(event.target===printModal)hidePrintOptions();});
+confirmPrint.addEventListener('click',()=>{
+  const selected=new Set([...printModal.querySelectorAll('input[type="checkbox"]:checked')].map(input=>input.value));
+  document.querySelectorAll('[data-print-section]').forEach(section=>{
+    section.classList.toggle('print-hide',!selected.has(section.dataset.printSection));
+  });
+  // Avoid an empty PDF if the user unchecks every section.
+  if(selected.size===0){alert('Please select at least one section to print.');return;}
+  document.body.classList.add('print-selection-active');
+  hidePrintOptions();
+  window.print();
+});
+window.addEventListener('afterprint',()=>{
+  document.body.classList.remove('print-selection-active');
+  document.querySelectorAll('[data-print-section]').forEach(section=>section.classList.remove('print-hide'));
+});
+
 </script>
 </body></html>
